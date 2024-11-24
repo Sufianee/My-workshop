@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NuNu brand</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #d3a4c0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(to right, #bb2c8e, #ff6bdf);
+            color: #2c1f1f;
+            padding: 1rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 1.1rem;
+        }
+
+        nav a {
+            color: #281e1e;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background: #fff;
+            color: #11998e;
+            border-radius: 20px;
+        }
+
+        .section {
+            display: none;
+            padding: 2rem;
+            
+        }
+
+        .active {
+            display: block;
+        }
+
+        .hero {
+            background: url('hero-bg.jpg') center/cover no-repeat;
+            color: #3e554e;
+            text-align: center;
+            padding: 8rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background: #ebe9e9;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            color: #352323;
+            margin: 0.5rem;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            color: #555;
+            margin: 0.5rem 1rem 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: #fff;
+            background: #991172;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: #ef38b5;
+        }
+
+        .owner-info {
+            background: #f9d7f1;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        footer {
+            background: #333;
+            color: #f7c6eb;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NuNu brand</h1>
+        <nav>
+            <a href="#" onclick="showSection('home')">หน้าหลัก</a>
+            <a href="#" onclick="showSection('products')">สินค้าแนะนำ</a>
+            <a href="#" onclick="showSection('about')">ช่องทางการสั่งซื้อ</a>
+            <a href="#" onclick="showSection('contact')">เกี่ยวกับเรา</a>
+        </nav>
+    </header>
+
+    <section class="section active" id="home">
+        <div class="hero">
+            <h1>ยินดีต้อนรับสู่ NuNu brand</h1>
+            <p>ผ้าคลุมบาวาแบบธรรมดา ผ้าคลุมบาวาติดเพรช ราคาสบายกระเป๋า เหมาะสำหรับทุกลูกค้าทุกอาชีพ</p>
+        </div>
+    </section>
+
+    <section class="section" id="products">
+        <h2>สินค้าแนะนำ</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="a6.jpg" alt="Hijab สีชมพู">
+                <h3>บาวา รุ่น:สโน</h3>
+                <p>ราคา: 129 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a7.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:ซาเนีย</h3>
+                <p>ราคา: 139 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a8.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:อมยิ้ม</h3>
+                <p>ราคา: 119 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a9.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:เรน่า</h3>
+                <p>ราคา: 119 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a10.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:พรีเมี่ยม</h3>
+                <p>ราคา: 149 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a11.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:อัฟรีน</h3>
+                <p>ราคา: 159 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a12.jpg" alt="Hijab สีฟ้า">
+                <h3>ผ้าคลุมสวมผ้าร่อง รุ่น:ลาย</h3>
+                <p>ราคา: 159 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a13.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:จัสมีน</h3>
+                <p>ราคา: 119 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a14.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:คลื่นทะเล</h3>
+                <p>ราคา: 129 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a15.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:มาตาลดา</h3>
+                <p>ราคา: 139 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a16.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:เมเรีย</h3>
+                <p>ราคา: 129 บาท</p>
+            </div>
+            <div class="product-card">
+                <img src="a17.jpg" alt="Hijab สีฟ้า">
+                <h3>บาวา รุ่น:ธรรมดา</h3>
+                <p>ราคา: 99 บาท</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <h2>ช่องทางการสั่งซื้อ</h2>
+        <p>สามารถสั่งซื้อสินค้าได้ผ่าน:</p>
+        <div class="social-links">
+            <a href="https://www.tiktok.com/@nu.nu.brand?_t=8qVqA3azb8M&_r=1" target="_blank">TikTok</a>
+            <a href="https://www.facebook.com/nunu.blinkz?mibextid=LQQJ4d" target="_blank">Facebook</a>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <h2>เกี่ยวกับเรา</h2>
+        <div class="owner-info">
+            <p><strong>ชื่อ:</strong> NuNu brand</p>
+            <p><strong>ช่องทางการติดต่อ:</strong> 0650744135</p>
+            <p><strong>ร้านตั้งอยู่:</strong> เปิดท้ายปัตตานี</p>
+            
+        </div>
+    </section>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

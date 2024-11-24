@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set Student Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("aa.png"); /* ใส่ URL ของรูปพื้นหลังที่คุณต้องการ */
+            background-size: cover; /* ให้รูปปรับขนาดตามหน้าจอ */
+            background-position: center; /* ตั้งค่าตำแหน่งของรูปให้อยู่ตรงกลาง */
+            background-repeat: no-repeat; /* ไม่ให้รูปซ้ำ */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            backdrop-filter: blur(5px); /* เพิ่มการเบลอพื้นหลังเพื่อให้ตัวฟอร์มดูชัดเจน */
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        #dataForm {
+            background-color: #f0f8ff; /* เพิ่มความโปร่งใสให้ฟอร์มเพื่อให้เห็นพื้นหลังบางส่วน */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            color: #333;
+            font-size: 14px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addBtn {
+            background-color: #4caf50;
+            color: white;
+        }
+        #mmb {
+            background-color: #f957bd;
+            color: white;
+        }
+
+        #viewBtn {
+            background-color: #008cba;
+            color: white;
+        }
+
+
+        input[type="button"]:hover {
+            opacity: 0.9;
+        }
+
+        #dataForm input[type="text"]:focus, #dataForm input[type="number"]:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+    </style>
+    <script>
+        let data = JSON.parse(localStorage.getItem("_data")) || [];
+
+        function addData() {
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            let mid = parseFloat(document.getElementById("mid").value).toFixed(2);
+            let fin = parseFloat(document.getElementById("fin").value).toFixed(2);
+
+            // Parse mid and fin as floats for calculation
+            let total = (parseFloat(mid) + parseFloat(fin)).toFixed(2);
+            let average = (parseFloat(total) / 2).toFixed(2); // Calculate average
+            let grade;
+
+            // Determine grade based on average total score
+            if (average >= 90) grade = 'A';
+            else if (average >= 80) grade = 'B+';
+            else if (average >= 75) grade = 'B';
+            else if (average >= 70) grade = 'C+';
+            else if (average >= 65) grade = 'C';
+            else if (average >= 60) grade = 'D+';
+            else if (average >= 55) grade = 'D';
+            else grade = 'E';
+
+            let item = { id, name, mid, fin, total, average, grade };
+            data.push(item);
+            localStorage.setItem("_data", JSON.stringify(data));
+            document.getElementById("dataForm").reset();
+        }
+    </script>
+</head>
+<body>
+    <form id="dataForm">
+        <h2>Add Student Score</h2>
+        <label for="id">Student ID:</label><br>
+        <input type="text" id="id" name="id" required><br>
+        <label for="name">Student Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="mid">Midterm Score:</label><br>
+        <input type="number" id="mid" name="mid" step="0.01" required><br>
+        <label for="fin">Final Score:</label><br>
+        <input type="number" id="fin" name="fin" step="0.01" required><br><br>
+        <input type="button" id="addBtn" value="Add" onclick="addData()">
+        <input type="button" id="viewBtn" value="View Scores" onclick="window.location.href='get.html'">
+        <input type="button" id="mmb" value="Members" onclick="window.location.href='member.html'">
+
+    </form>
+</body>
+</html>

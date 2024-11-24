@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Student Scores</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #333;
+            margin: 20px;
+            text-align: center;
+        }
+
+        #container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        th {
+            background-color: #4c87af;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+            text-align: center;
+            color: #333;
+        }
+
+        #summary, #topScores, #congratulations {
+            font-size: 18px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #congratulations {
+            color: green;
+            font-weight: bold;
+        }
+
+        .chart-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #backTadd {
+            font-size: 30px;
+            background-color: #51c9e3;
+            color: white;
+        }
+        #mmb {
+            font-size: 30px;
+            background-color: #e351d2;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .chart-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body onload="showData()">
+    <h2>Student Scores</h2>
+    <div id="container">
+        <div id="tb"></div>
+        <p id="summary"></p>
+        <p id="topScores"></p>
+        <p id="congratulations"></p>
+
+        <div class="chart-container">
+            <canvas id="gradeDonutChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function showData() {
+            let data = JSON.parse(localStorage.getItem("_data")) || [];
+            let table = "<table><tr><th>No</th><th>Student ID</th><th>Student Name</th><th>Midterm Score</th><th>Final Score</th><th>Total Scores</th><th>Average Score</th><th>Grade</th></tr>";
+
+            let gradesCount = {}; // Object to store grade counts for the donut chart
+
+            data.forEach((item, index) => {
+                table += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${parseFloat(item.mid).toFixed(2)}</td>
+                    <td>${parseFloat(item.fin).toFixed(2)}</td>
+                    <td>${parseFloat(item.total).toFixed(2)}</td>
+                    <td>${parseFloat(item.average).toFixed(2)}</td>
+                    <td>${item.grade}</td>
+                </tr>`;
+
+                // Count grades for the donut chart
+                if (gradesCount[item.grade]) {
+                    gradesCount[item.grade]++;
+                } else {
+                    gradesCount[item.grade] = 1;
+                }
+            });
+
+            table += "</table>";
+            document.getElementById("tb").innerHTML = table;
+
+            if (data.length > 0) {
+                let totalSum = data.reduce((sum, item) => sum + parseFloat(item.total), 0).toFixed(2);
+                let average = (totalSum / data.length).toFixed(2);
+                let max = Math.max(...data.map(item => parseFloat(item.total))).toFixed(2);
+                let min = Math.min(...data.map(item => parseFloat(item.total))).toFixed(2);
+                document.getElementById("summary").innerHTML = `Total Score Of Table<br>Total Average: ${average}<br>Total Max: ${max}<br>Total Min: ${min}`;
+
+                let sortedData = [...data].sort((a, b) => parseFloat(b.total) - parseFloat(a.total));
+                let topStudents = sortedData.slice(0, 3).map((item, index) => {
+                    return `${index + 1}. ${item.name} - Total: ${parseFloat(item.total).toFixed(2)} - Grade: ${item.grade}`;
+                }).join('<br>');
+
+                document.getElementById("topScores").innerHTML = `Top Scores:<br>${topStudents}<br>`;
+
+                if (sortedData.length > 0) {
+                    let topStudent = sortedData[0];
+                    document.getElementById("congratulations").innerHTML = `Congratulations to ${topStudent.name} for being the top student with a total score of ${parseFloat(topStudent.total).toFixed(2)}!`;
+                }
+
+                // Create Donut Chart for grade distribution
+                createDonutChart(gradesCount);
+            }
+        }
+
+        function createDonutChart(gradesCount) {
+            let ctx = document.getElementById('gradeDonutChart').getContext('2d');
+            let gradeLabels = Object.keys(gradesCount); // Get the grade labels (A, B, C, etc.)
+            let gradeData = Object.values(gradesCount); // Get the count of each grade
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: gradeLabels,
+                    datasets: [{
+                        label: 'Grade Distribution',
+                        data: gradeData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' students';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+    </script>
+    <!-- ปุ่มเพิ่มเพื่อกลับไปยังหน้าการใส่ข้อมูล -->
+    <input type="button" id="backTadd" value="Back to Add Data" onclick="window.location.href='set.html'"><br>
+    <input type="button" id="mmb" value="Members" onclick="window.location.href='member.html'">
+</body>        
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            /* Background image for the entire page */
+            background-image: url('x1.png'); /* Replace with the URL or path of your image */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the image */
+            background-attachment: fixed; /* Keep the image fixed while scrolling */
+            font-family: Arial, sans-serif; /* Font style for the page */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+        center {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside the container */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Light shadow effect */
+            max-width: 600px; /* Maximum width of the container */
+            margin: auto; /* Center the container horizontally */
+        }
+
+        h2 {
+            color: #333333; /* Darker color for the heading */
+        }
+
+        label, input {
+            display: block; /* Block display for labels and inputs */
+            margin: 10px 0; /* Margin around labels and inputs */
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px); /* Full width minus padding */
+            padding: 10px; /* Padding inside the input */
+            border: 1px solid #cccccc; /* Border color */
+            border-radius: 5px; /* Rounded corners for the input */
+        }
+
+        input[type="number"] {
+            width: calc(100% - 22px); /* Full width minus padding */
+            padding: 10px; /* Padding inside the input */
+            border: 1px solid #cccccc; /* Border color */
+            border-radius: 5px; /* Rounded corners for the input */
+
+        }
+
+        input[type="button"] {
+            background-color: #744b0e; /* Green background */
+            color: white; /* White text */
+            border: none; /* No border */
+            padding: 15px 32px; /* Padding inside the button */
+            text-align: center; /* Center the text */
+            text-decoration: none; /* No underline */
+            display: inline-block; /* Inline block display */
+            font-size: 16px; /* Font size */
+            margin: 4px 2px; /* Margin around the button */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners for the button */
+        }
+
+        input[type="button"]:hover {
+            background-color: #c80a0a; /* Darker green on hover */
+        }
+
+        p {
+            font-size: 16px; /* Font size for paragraphs */
+            color: #333333; /* Darker text color */
+        }
+    </style>
+    <script>
+        function clickme(){
+            let fname = document.forms["myform"]["fname"].value;
+            let lname = document.forms["myform"]["lname"].value;
+            let w = document.forms["myform"]["weight"].value;
+            let h = document.forms["myform"]["height"].value;
+
+            // ตรวจสอบว่ามีการกรอกน้ำหนักหรือไม่
+            if (!w) {
+                alert("กรุณากรอกน้ำหนัก");
+                return; // หยุดการทำงานของฟังก์ชันหากไม่มีการกรอกน้ำหนัก
+            }
+
+            // ตรวจสอบว่ามีการกรอกความสูงหรือไม่
+            if (!h) {
+                alert("กรุณากรอกความสูง");
+                return; // หยุดการทำงานของฟังก์ชันหากไม่มีการกรอกความสูง
+            }
+
+            w = parseFloat(w);
+            h = parseFloat(h) / 100; // แปลงความสูงเป็นเมตร
+
+            // คำนวณค่า BMI = น้ำหนัก (กก.) / (ส่วนสูง (เมตร))^2
+            let bmi = w / (h ** 2);
+
+            // กำหนดชื่อวันและเดือน
+            const days = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"];
+            const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+
+            let dte = new Date();
+            let yyyy = dte.getFullYear() + 543; // แปลง ค.ศ. เป็น พ.ศ.
+            let m = dte.getMonth(); // 0..11
+            let d = dte.getDate(); // 1..31
+            let dy = dte.getDay(); // 0..6
+
+            let dayName = days[dy];
+            let monthName = months[m];
+
+            let fullDate = "Today is วัน" + dayName + " ที่ " + d + " " + monthName + " " + yyyy;
+
+            // แสดงวันที่ปัจจุบันตามรูปแบบที่สร้าง
+            document.getElementById('demo').innerHTML = fullDate;
+
+            // แสดงข้อความทักทาย
+            document.getElementById('hello').innerHTML = "Hello " + fname + " " + lname + "!";
+
+            // แสดงค่า BMI ใน element ที่มี id 'bmi'
+            document.getElementById('bmi').innerHTML = "Your BMI is " + bmi.toFixed(2);
+
+            // คำนวณผลลัพธ์ว่าค่าดัชนีมวลกายอยู่ในช่วงไหน 
+            let result;
+            if (bmi < 18.5) {
+                result = "Underweight";
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+                result = "Normal weight";
+            } else if (bmi >= 25 && bmi <= 29.9) {
+                result = "Overweight";
+            } else {
+                result = "Obesity";
+            }
+
+            // แสดงผลลัพธ์ใน element ที่มี id 'rs'
+            document.getElementById('rs').innerHTML = "Result: " + result;
+        }
+    </script>
+</head>
+
+<body>
+<center>
+    <h2>"BMI Calculator"</h2>
+        <br><br>
+        <form name="myform">
+
+            <label for="fname">First name:</label><br><br>
+            <input type="text" id="fname" name="fname"><br><br>
+    
+            <label for="lname">Last name:</label><br><br>
+            <input type="text" id="lname" name="lname"><br><br>
+    
+            <label for="weight">Your weight (kg):</label><br><br>
+            <input type="number" id="weight" name="weight"><br><br>
+    
+            <label for="height">Your height (cm):</label><br><br>
+            <input type="number" id="height" name="height"><br><br>
+
+            <input type="button" value="submit" onclick="clickme()">
+
+        </form> 
+        <br>
+        <p id="demo"></p>
+        <p id="hello"></p>
+        <p id="bmi"></p>
+        <p id="rs"></p>
+</center>
+</body>
+</html>
